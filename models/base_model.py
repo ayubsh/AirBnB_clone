@@ -3,31 +3,50 @@
 import uuid
 import datetime
 
+
 class BaseModel:
-    """ base class that defines 
+    """ base class that defines
         all common attributes/methods for other classes
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ constructor for the baseclass model """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
+        if kwargs:
+            for k, v in kwargs.items():
+                if k == '__class__':
+                    continue
+                elif k == 'updated_at':
+                    v = datetime.datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                elif k == 'created_at':
+                    v = datetime.datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                if 'id' not in k:
+                    self.id = str(uuid.uuid4())
+                if 'created_at' not in k:
+                    self.created_at = datetime.datetime.now()
+                if 'updated_at' not in k:
+                    self.updated_at = datetime.datetime.now()
+                setattr(self, k, v)
+
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.now()
+            self.updated_at = datetime.datetime.now()
 
     def __str__(self):
-        """ prints the class in 
+        """ prints the class in
             [<class name>] (<self.id>) <self.__dict__>
         """
-        s = ("[{}] ({}) {}".format(self.__class__.__name__,self.id, self.__dict__))
+        s = ("[{}] ({}) {}".format(self.__class__.__name__,
+                                   self.id, self.__dict__))
         return s
 
     def save(self):
-        """ updates the public instance attribute updated_at 
+        """ updates the public instance attribute updated_at
             with the current datetime
         """
         self.updated_at = datetime.datetime.now()
 
     def to_dict(self):
-        """ returns dictionary containing all keys/values of __dict__ of 
+        """ returns dictionary containing all keys/values of __dict__ of
             the instance
         """
         d = self.__dict__
