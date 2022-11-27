@@ -48,6 +48,15 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(str(b),
                          "[BaseModel] ({}) {}".format(b.id, b.__dict__))
 
+    def test_savesecond(self):
+        """ check string """
+        with self.assertRaises(AttributeError):
+            BaseModel.save("THIS IS A TEST")
+
+    def test_inst(self):
+        """check class """
+        ml = BaseModel()
+        self.assertTrue(ml, BaseModel)
 
 if __name__ == "__main__":
     unittest.main()
