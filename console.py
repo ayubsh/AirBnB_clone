@@ -2,12 +2,13 @@
 """ Console cmd Module """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models.base_model import storage
 
 
 class HBNBCommand(cmd.Cmd):
     """ console program for Airbnb"""
-    classes_l = {'BaseModel': BaseModel}
+    classes_l = {'BaseModel': BaseModel, 'User': User}
     prompt = "(hbnb) "
 
     def do_quit(self, args):
