@@ -4,7 +4,7 @@ import cmd
 
 
 class HBNBCommand(cmd.Cmd):
-    """ console program """
+    """ console program for Airbnb"""
     prompt = "(hbnb) "
 
     def do_quit(self, args):
@@ -13,9 +13,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, args):
         """Exit method for EOF """
+        print("")
         return True
 
     def emptyline(self):
+        """ emptyline <Enter> + emptyline """
         pass
 
 
